@@ -119,13 +119,17 @@ public class EV3DroidCVClient {
                 leftMotor.stop(); 
                 rightMotor.stop(); 
             } else {
-                leftMotor.setSpeed((int)(BASE_SPEED * (1 + 2 * x))); 
+                leftMotor.setSpeed((int)(BASE_SPEED * (1 + 0.8 * x))); 
                 leftMotor.forward();
-                rightMotor.setSpeed((int)(BASE_SPEED * (1 - 2 * x)));
+                rightMotor.setSpeed((int)(BASE_SPEED * (1 - 0.8 * x)));
                 rightMotor.forward();
             }
             leftMotor.endSynchronization();
-            if( Button.waitForAnyPress(10) != 0 ) {
+            if( Button.readButtons() != 0 ) {
+                leftMotor.startSynchronization();
+                leftMotor.stop(); 
+                rightMotor.stop(); 
+                leftMotor.endSynchronization();
                 disconnect();
                 finish = true;
             }
